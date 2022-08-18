@@ -19,14 +19,20 @@ struct BackgroundSelectorView: View {
     
     var body: some View {
         VStack {
-            HeaderView(viewModel:
-                    .init(
-                        title: "Background",
-                        leftButtonTitle: "Done",
-                        leftButtonAction: {
-                            presentationMode.wrappedValue.dismiss()
-                        },
-                        colorControl: canvasViewModel.backgroundColor))
+            HeaderView(
+                viewModel:
+                        .init(
+                            title: "Background",
+                            leftButtonTitle: "Done",
+                            leftButtonAction: {
+                                presentationMode.wrappedValue.dismiss()
+                            }),
+                rightControls: {
+                    ColorItemView(color: Color(canvasViewModel.backgroundColor))
+                        .scaleEffect(0.8)
+                }
+            )
+            
             VStack {
                 CanvasView(viewModel: canvasViewModel)
                 

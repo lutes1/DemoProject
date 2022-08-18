@@ -27,8 +27,17 @@ class HeaderViewModel {
     var tiltIndicator: String? = nil
 }
 
-struct HeaderView: View {
+struct HeaderView<LeftControls: View, RightControls: View>: View {
+    internal init(viewModel: HeaderViewModel, leftControls: @escaping () -> LeftControls, rightControls: @escaping () -> RightControls) {
+        self.viewModel = viewModel
+        self.leftControls = leftControls
+        self.rightControls = rightControls
+    }
+    
     var viewModel: HeaderViewModel
+    @ViewBuilder let leftControls: () -> LeftControls
+    @ViewBuilder let rightControls: () -> RightControls
+    
     var body: some View {
         ZStack {
             HStack {
@@ -38,26 +47,10 @@ struct HeaderView: View {
                     }
                 }
                 
-                if let sizeBinding = viewModel.sizeControlCallback {
-                    Stepper("", value: sizeBinding , in: 0...4)
-                        .frame(width: 100)
-                }
+                leftControls()
                 
                 Spacer()
-                
-                if let colorIndicator = viewModel.colorControl {
-                    ColorItemView(color: Color(colorIndicator))
-                }
-                
-                if let sizeIndicator = viewModel.sizeIndicator {
-                    Text(sizeIndicator)
-                        .font(.title.bold())
-                }
-                
-                if let tiltIndicator = viewModel.tiltIndicator {
-                    Text("\(tiltIndicator)°")
-                        .font(.title.bold())
-                }
+                rightControls()
             }
             
             if let title = viewModel.title {
@@ -77,5 +70,23 @@ struct HeaderView_Previews: PreviewProvider {
             sizeIndicator: "120%",
             colorControl: UIColor.brown)
         )
+    }
+}
+
+extension HeaderView where LeftControls == EmptyView, RightControls == EmptyView {
+    init(viewModel: HeaderViewModel) {
+        self.init(viewModel: viewModel, leftControls: { EmptyView() }, rightControls: { EmptyView() })
+    }
+}
+
+extension HeaderView where LeftControls == EmptyView {
+    init(viewModel: HeaderViewModel, @ViewBuilder rightControls: @escaping () -> RightControls) {
+        self.init(viewModel: viewModel, leftControls: { EmptyView() }, rightControls: rightControls)
+    }
+}
+
+extension HeaderView where RightControls == EmptyView {
+    init(viewModel: HeaderViewModel, @ViewBuilder leftControls: @escaping () -> LeftControls) {
+        self.init(viewModel: viewModel, leftControls: leftControls, rightControls: { EmptyView() })
     }
 }

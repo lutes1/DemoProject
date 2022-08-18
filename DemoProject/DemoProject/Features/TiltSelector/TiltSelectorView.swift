@@ -13,15 +13,19 @@ struct TiltSelectorView: View {
     
     var body: some View {
         VStack {
-            HeaderView(viewModel:
-                .init(
-                    title: "Rotation",
-                    leftButtonTitle: "Done",
-                    leftButtonAction: {
-                        presentationMode.wrappedValue.dismiss()
-                    },
-                    tiltIndicator: String(Int(canvasViewModel.tilt))
-                )
+            HeaderView(
+                viewModel:
+                        .init(
+                            title: "Rotation",
+                            leftButtonTitle: "Done",
+                            leftButtonAction: {
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        ),
+                rightControls: {
+                    Text("\(Int(canvasViewModel.tilt))°")
+                        .font(.title.bold())
+                }
             )
             
             Spacer()

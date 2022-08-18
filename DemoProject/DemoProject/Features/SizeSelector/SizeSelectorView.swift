@@ -13,14 +13,16 @@ struct SizeSelectorView: View {
     
     var body: some View {
         VStack {
-            HeaderView(viewModel:
-                .init(
+            HeaderView(
+                viewModel: .init(
                     title: "Size",
                     leftButtonTitle: "Done",
                     leftButtonAction: {
                         presentationMode.wrappedValue.dismiss()
-                    },
-                    sizeControlCallback: Binding(
+                    }
+                ),
+                leftControls: {
+                    Stepper("", value: Binding(
                         get: {
                             canvasViewModel.size.rawValue
                         },
@@ -29,9 +31,13 @@ struct SizeSelectorView: View {
                                 canvasViewModel.size = .init(rawValue: value)!
                             }
                         }
-                    ),
-                    sizeIndicator: canvasViewModel.size.title
-                )
+                    ) , in: 0...4)
+                    .frame(width: 100)
+                },
+                rightControls: {
+                    Text(canvasViewModel.size.title)
+                        .font(.title.bold())
+                }
             )
             
             Spacer()
@@ -59,3 +65,4 @@ struct SizeSelectorView_Previews: PreviewProvider {
         return UIImage(data: (try? Data(contentsOf: URL(string: url)!))!)!
     }
 }
+
