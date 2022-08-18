@@ -9,18 +9,34 @@ import SwiftUI
 
 struct SizeSelectorView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var viewModel: ContentViewModel
+    @EnvironmentObject var canvasViewModel: CanvasViewModel
     
     var body: some View {
         VStack {
-            HeaderView(title: "Size")
+            HeaderView(viewModel:
+                .init(
+                    title: "Size",
+                    leftButtonTitle: "Done",
+                    leftButtonAction: {
+                        presentationMode.wrappedValue.dismiss()
+                    },
+                    sizeControlCallback: Binding(
+                        get: {
+                            canvasViewModel.size.rawValue
+                        },
+                        set: { value in
+                            withAnimation {
+                                canvasViewModel.size = .init(rawValue: value)!
+                            }
+                        }
+                    ),
+                    sizeIndicator: canvasViewModel.size.title
+                )
+            )
+            
             Spacer()
-            CanvasView(viewModel: CanvasViewModel(
-                image: viewModel.image!,
-                tilt: viewModel.metadata.tilt,
-                backgroundColor: viewModel.metadata.backgroundColor,
-                size: viewModel.metadata.size
-            ))
+            CanvasView(viewModel: canvasViewModel)
+            
             Spacer()
         }
         .padding()
@@ -33,9 +49,8 @@ struct SizeSelectorView_Previews: PreviewProvider {
             .environmentObject(Self.createViewModel())
     }
     
-    private static func createViewModel() -> ContentViewModel {
-        let viewModel = ContentViewModel()
-        viewModel.image = loadDummyImage()
+    private static func createViewModel() -> CanvasViewModel {
+        let viewModel = CanvasViewModel(image: loadDummyImage())
         return viewModel
     }
     

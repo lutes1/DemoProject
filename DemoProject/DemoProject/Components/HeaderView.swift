@@ -7,21 +7,63 @@
 
 import SwiftUI
 
+class HeaderViewModel {
+    internal init(title: String? = nil, leftButtonTitle: String? = nil, leftButtonAction: (() -> ())? = nil, sizeControlCallback: Binding<Int>? = nil, sizeIndicator: String? = nil, colorControl: UIColor? = nil, tiltIndicator: String? = nil) {
+        self.title = title
+        self.leftButtonTitle = leftButtonTitle
+        self.leftButtonAction = leftButtonAction
+        self.sizeControlCallback = sizeControlCallback
+        self.sizeIndicator = sizeIndicator
+        self.colorControl = colorControl
+        self.tiltIndicator = tiltIndicator
+    }
+   
+    var title: String? = nil
+    var leftButtonTitle: String? = nil
+    var leftButtonAction: (() -> ())? = nil
+    var sizeControlCallback: Binding<Int>? = nil
+    var sizeIndicator: String? = nil
+    var colorControl: UIColor? = nil
+    var tiltIndicator: String? = nil
+}
+
 struct HeaderView: View {
-    @Environment(\.presentationMode) var presentationMode
-    var title: String
+    var viewModel: HeaderViewModel
     var body: some View {
         ZStack {
             HStack {
-                Button("Close") {
-                    presentationMode.wrappedValue.dismiss()
+                if let leftButtonTitle = viewModel.leftButtonTitle {
+                    Button(leftButtonTitle) {
+                        viewModel.leftButtonAction?()
+                    }
+                }
+                
+                if let sizeBinding = viewModel.sizeControlCallback {
+                    Stepper("", value: sizeBinding , in: 0...4)
+                        .frame(width: 100)
                 }
                 
                 Spacer()
+                
+                if let colorIndicator = viewModel.colorControl {
+                    ColorItemView(color: Color(colorIndicator))
+                }
+                
+                if let sizeIndicator = viewModel.sizeIndicator {
+                    Text(sizeIndicator)
+                        .font(.title.bold())
+                }
+                
+                if let tiltIndicator = viewModel.tiltIndicator {
+                    Text("\(tiltIndicator)°")
+                        .font(.title.bold())
+                }
             }
             
-            Text(title)
-                .font(.title.bold())
+            if let title = viewModel.title {
+                Text(title)
+                    .font(.title.bold())
+            }
         }
         .buttonStyle(.bordered)
     }
@@ -29,6 +71,11 @@ struct HeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderView(title: "_test title_")
+        HeaderView(viewModel: .init(
+            title: "_test title_",
+            leftButtonTitle: "Save",
+            sizeIndicator: "120%",
+            colorControl: UIColor.brown)
+        )
     }
 }

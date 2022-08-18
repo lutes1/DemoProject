@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct CanvasView: View {
-    var viewModel: CanvasViewModel
+    @ObservedObject var viewModel: CanvasViewModel
     
     var body: some View {
         ZStack {
             Image(uiImage: viewModel.image)
                 .resizable()
                 .scaledToFit()
-                .scaleEffect(viewModel.size.rawValue)
+                .scaleEffect(viewModel.size.ammount)
                 .rotationEffect(Angle(degrees: viewModel.tilt))
         }
         .background(Color(viewModel.backgroundColor))

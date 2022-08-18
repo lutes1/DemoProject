@@ -9,12 +9,12 @@ import SwiftUI
 
 struct ImageImportView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var viewModel: ContentViewModel
     @State var image: UIImage?
     @State var imageResource = "https://pngimg.com/uploads/earth/earth_PNG21.png"
     @State var showloadingIndicator = false
     @State var isErrorAlertVisible = false
     @State var errorMessage = ""
+    var onSubmit: (UIImage) -> ()
     
     var body: some View {
         VStack {
@@ -61,7 +61,7 @@ struct ImageImportView: View {
                     return
                 }
                 
-                viewModel.image = image
+                onSubmit(image)
                 presentationMode.wrappedValue.dismiss()
             }
         }
@@ -97,6 +97,6 @@ struct ImageImportView: View {
 
 struct ImageImportView_Previews: PreviewProvider {
     static var previews: some View {
-        ImageImportView()
+        ImageImportView(onSubmit: { image in })
     }
 }
