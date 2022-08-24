@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var page: Page? = nil
-    @State var displayImageLoader = false
+    private let imageLink = "https://pngimg.com/uploads/earth/earth_PNG21.png"
+    @State private var page: Page? = nil
+    @State private var showloadingIndicator = false
     @ObservedObject var viewModel: ContentViewModel
     
     var body: some View {
@@ -21,30 +22,15 @@ struct ContentView: View {
                 CanvasView(viewModel: canvasViewModel)
                     .padding()
             }
-            else {
-                Button {
-                    displayImageLoader.toggle()
-                }
-                label: {
-                    Image(systemName: "plus")
-                        .foregroundColor(.white)
-                        .imageScale(.large)
-                        .font(.title)
-                }
-                .padding()
-                .background(Color.accentColor)
-                .cornerRadius(5)
+            
+            if showloadingIndicator {
+                ProgressView()
             }
             
             Spacer()
 
             if viewModel.canvasViewModel != nil {
                 HStack {
-                    Button("Clear image") {
-                        withAnimation {
-                            viewModel.canvasViewModel = nil
-                        }
-                    }
                     Spacer()
                     HStack {
                         Button("Tilt") { page = .tilt }
@@ -53,6 +39,7 @@ struct ContentView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .fontWeight(.bold)
+                    Spacer()
                 }
             }
         }
@@ -71,12 +58,32 @@ struct ContentView: View {
                 }
             }
         }
-        .sheet(isPresented: $displayImageLoader) {
-            ImageImportView { image in
-                self.viewModel.canvasViewModel = CanvasViewModel(image: image)
+        .padding()
+        .onAppear {
+            loadImage()
+        }
+    }
+    
+    private func loadImage() {
+        showloadingIndicator = true
+        
+        DispatchQueue.global().async {
+            defer {
+                DispatchQueue.main.async {
+                    showloadingIndicator = false
+                }
+            }
+            
+            guard let url = URL(string: imageLink) else { return }
+            guard let data = try? Data(contentsOf: url) else { return }
+            guard let image = UIImage(data: data) else { return }
+            
+            DispatchQueue.main.async {
+                withAnimation {
+                    self.viewModel.canvasViewModel = CanvasViewModel(image: image)
+                }
             }
         }
-        .padding()
     }
 }
 

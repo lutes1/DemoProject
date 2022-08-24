@@ -8,7 +8,7 @@
 import SwiftUI
 
 class HeaderViewModel {
-    internal init(title: String? = nil, leftButtonTitle: String? = nil, leftButtonAction: (() -> ())? = nil, sizeControlCallback: Binding<Int>? = nil, sizeIndicator: String? = nil, colorControl: UIColor? = nil, tiltIndicator: String? = nil) {
+    internal init(title: String, leftButtonTitle: String? = nil, leftButtonAction: (() -> ())? = nil, sizeControlCallback: Binding<Int>? = nil, sizeIndicator: String? = nil, colorControl: UIColor? = nil, tiltIndicator: String? = nil) {
         self.title = title
         self.leftButtonTitle = leftButtonTitle
         self.leftButtonAction = leftButtonAction
@@ -18,7 +18,7 @@ class HeaderViewModel {
         self.tiltIndicator = tiltIndicator
     }
    
-    var title: String? = nil
+    var title: String
     var leftButtonTitle: String? = nil
     var leftButtonAction: (() -> ())? = nil
     var sizeControlCallback: Binding<Int>? = nil
@@ -28,15 +28,18 @@ class HeaderViewModel {
 }
 
 struct HeaderView<LeftControls: View, RightControls: View>: View {
-    internal init(viewModel: HeaderViewModel, leftControls: @escaping () -> LeftControls, rightControls: @escaping () -> RightControls) {
+    internal init(
+        viewModel: HeaderViewModel,
+        @ViewBuilder leftControls: @escaping () -> LeftControls,
+        @ViewBuilder rightControls: @escaping () -> RightControls) {
         self.viewModel = viewModel
         self.leftControls = leftControls
         self.rightControls = rightControls
     }
     
-    var viewModel: HeaderViewModel
-    @ViewBuilder let leftControls: () -> LeftControls
-    @ViewBuilder let rightControls: () -> RightControls
+    private var viewModel: HeaderViewModel
+    private let leftControls: () -> LeftControls
+    private let rightControls: () -> RightControls
     
     var body: some View {
         ZStack {
@@ -53,10 +56,8 @@ struct HeaderView<LeftControls: View, RightControls: View>: View {
                 rightControls()
             }
             
-            if let title = viewModel.title {
-                Text(title)
-                    .font(.title.bold())
-            }
+            Text(viewModel.title)
+                .font(.title.bold())
         }
         .buttonStyle(.bordered)
     }
