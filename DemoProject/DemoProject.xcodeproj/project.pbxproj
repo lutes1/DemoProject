@@ -16,7 +16,6 @@
 		2BF550D628AE32C6008AE306 /* TiltSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF550D528AE32C6008AE306 /* TiltSelectorView.swift */; };
 		2BF550DA28AE3315008AE306 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF550D928AE3315008AE306 /* CanvasView.swift */; };
 		2BF550DC28AE331C008AE306 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF550DB28AE331C008AE306 /* HeaderView.swift */; };
-		2BF550DF28AE335A008AE306 /* ImageImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF550DE28AE335A008AE306 /* ImageImportView.swift */; };
 		2BF550E228AEAC89008AE306 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF550E128AEAC89008AE306 /* CanvasViewModel.swift */; };
 		2BF550E528AEACD8008AE306 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF550E428AEACD8008AE306 /* ContentViewModel.swift */; };
 		2BF550E728AEACF9008AE306 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF550E628AEACF9008AE306 /* Page.swift */; };
@@ -37,7 +36,6 @@
 		2BF550D528AE32C6008AE306 /* TiltSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TiltSelectorView.swift; sourceTree = "<group>"; };
 		2BF550D928AE3315008AE306 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		2BF550DB28AE331C008AE306 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
-		2BF550DE28AE335A008AE306 /* ImageImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageImportView.swift; sourceTree = "<group>"; };
 		2BF550E128AEAC89008AE306 /* CanvasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewModel.swift; sourceTree = "<group>"; };
 		2BF550E428AEACD8008AE306 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		2BF550E628AEACF9008AE306 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
@@ -100,7 +98,6 @@
 			isa = PBXGroup;
 			children = (
 				2BF550E328AEACC7008AE306 /* Home */,
-				2BF550DD28AE3344008AE306 /* ImageImport */,
 				2BF550D028AE3279008AE306 /* SizeSelector */,
 				2BF550CF28AE326B008AE306 /* BackgroundSelector */,
 				2BF550CE28AE3265008AE306 /* TiltSelector */,
@@ -140,14 +137,6 @@
 				2BF550EE28AEADDA008AE306 /* ColorItemView.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		2BF550DD28AE3344008AE306 /* ImageImport */ = {
-			isa = PBXGroup;
-			children = (
-				2BF550DE28AE335A008AE306 /* ImageImportView.swift */,
-			);
-			path = ImageImport;
 			sourceTree = "<group>";
 		};
 		2BF550E028AEAC78008AE306 /* Canvas */ = {
@@ -256,7 +245,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BC2A21728854AA30059B962 /* ContentView.swift in Sources */,
-				2BF550DF28AE335A008AE306 /* ImageImportView.swift in Sources */,
 				2BF550E228AEAC89008AE306 /* CanvasViewModel.swift in Sources */,
 				2BF550D228AE3293008AE306 /* SizeSelectorView.swift in Sources */,
 				2BF550E528AEACD8008AE306 /* ContentViewModel.swift in Sources */,

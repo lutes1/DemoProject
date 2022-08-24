@@ -8,7 +8,7 @@
 import SwiftUI
 
 class HeaderViewModel {
-    internal init(title: String? = nil, leftButtonTitle: String? = nil, leftButtonAction: (() -> ())? = nil, sizeControlCallback: Binding<Int>? = nil, sizeIndicator: String? = nil, colorControl: UIColor? = nil, tiltIndicator: String? = nil) {
+    internal init(title: String, leftButtonTitle: String? = nil, leftButtonAction: (() -> ())? = nil, sizeControlCallback: Binding<Int>? = nil, sizeIndicator: String? = nil, colorControl: UIColor? = nil, tiltIndicator: String? = nil) {
         self.title = title
         self.leftButtonTitle = leftButtonTitle
         self.leftButtonAction = leftButtonAction
@@ -18,7 +18,7 @@ class HeaderViewModel {
         self.tiltIndicator = tiltIndicator
     }
    
-    var title: String? = nil
+    var title: String
     var leftButtonTitle: String? = nil
     var leftButtonAction: (() -> ())? = nil
     var sizeControlCallback: Binding<Int>? = nil
